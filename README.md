@@ -1,5 +1,5 @@
 # Jerk Constraint Velocity Planning for an Autonomous Vehicle: Quadratic Programming Approach
-. 
+
 ## Dependencies. 
 This code has been tested on Ubuntu18.04/20.04. External dependencies are 
 

@@ -14,27 +14,27 @@ This code is the self-research code for performing velocity planning **on a fixe
 
 ### Normal
 
-![](result/Normal.png)
+![](/result/Normal.png)
 
 ### Cutin
 
-![](result/Cutin.png)
+![](/result/Cutin.png)
 
 ### Cutout
 
-![](result/Cutout.png)
+![](/result/Cutout.png)
 
 ### Stop
 
-![](result/Stop.png)
+![](/result/Stop.png)
 
 ### Start 
 
-![](result/Start.png)
+![](/result/Start.png)
 
 ### Acc
 
-![](result/Acc.png)
+![](/result/Acc.png)
 
 ## References
 

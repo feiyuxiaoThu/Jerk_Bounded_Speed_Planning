@@ -27,10 +27,10 @@ namespace Utils
         std::ofstream writing_file;
         writing_file.open(filename, std::ios::out);
         writing_file << "ref_position" <<  "," << "max_position" << "," << "min_position" << "," << "opt_position" << ","
-                     << "opt_velocity" <<  "," << "opt_acceleration" << "," << "opt_jerk" << "," 
+                     << "opt_velocity" <<  "," << "opt_acceleration" << "," << "opt_jerk" << "," << "time" << ","
                      << std::endl;
 
-        for(int i=0; i<positions.size(); ++i)
+        for(int i=0; i<ref_position.size(); ++i)
         {
             writing_file << ref_position[i] << "," << max_position[i] << "," << min_position[i] << "," << qp_output.position[i] << ","
                          << qp_output.velocity[i] << "," << qp_output.acceleration[i] << "," << qp_output.jerk[i] << ","

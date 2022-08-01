@@ -22,7 +22,7 @@ public:
                            const std::vector<double>& ref_s,
                            const std::vector<double>& max_s,
                            const std::vector<double>& min_s,
-                           OutputInfo& output);
+                           BaseSolver::OutputInfo& output);
 
 
 private:

@@ -13,11 +13,11 @@ bool Optimizer::solveqp(const double& initial_vel,
                            const std::vector<double>& ref_s,
                            const std::vector<double>& max_s,
                            const std::vector<double>& min_s,
-                           OutputInfo& output)
+                           BaseSolver::OutputInfo& output)
 {
     bool is_success = false;
     
-    is_success = solver_->solveqp(initial_vel, initial_acc, ds, ref_vels, max_vels, output);
+    is_success = solver_->solveqp(initial_vel, initial_acc, dt, ref_s, max_s, min_s, output);
 
     return is_success;
 }

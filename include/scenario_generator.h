@@ -13,6 +13,11 @@ public:
     enum ScenarioNumber
     {
         Normal = 0,
+        Cutin = 1,
+        Cutout = 2,
+        Stop = 3,
+        Start = 4,
+        Acc = 5,
         //Accelerate = 1,
         //Stop = 2,
         //Wait = 3,
@@ -41,6 +46,11 @@ public:
 
     void generate(const ScenarioNumber& scenario_num, ScenarioData& scenario_data);
     void generateNormalScenario(ScenarioData& scenario_data);
+    void generateCutinScenario(ScenarioData& scenario_data);
+    void generateCutoutScenario(ScenarioData& scenario_data);
+    void generateStopScenario(ScenarioData& scenario_data);
+    void generateStartScenario(ScenarioData& scenario_data);
+    void generateAccScenario(ScenarioData& scenario_data);
     
 };
 

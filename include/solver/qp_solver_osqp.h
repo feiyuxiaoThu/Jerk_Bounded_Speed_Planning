@@ -17,6 +17,7 @@ namespace osqp
                            const std::vector<double>& max_s,
                            const std::vector<double>& min_s,
                            OutputInfo& output);
+    };
 
        
 }

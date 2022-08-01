@@ -23,7 +23,7 @@ public:
         double min_vel;
         double ref_v; // target final velocity
         //double smooth_weight;
-        double over_j_weight;
+        double over_s_weight;
         double over_v_weight;
         double over_a_weight;
     };

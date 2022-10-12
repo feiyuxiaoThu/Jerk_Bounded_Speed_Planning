@@ -1,5 +1,9 @@
 # Jerk Constraint Velocity Planning for an Autonomous Vehicle: Quadratic Programming Approach
 
+> A pure c implemention of this method can be found in [feiyuxiaoThu
+/
+piecewise_jerk_path_optimizer](https://github.com/feiyuxiaoThu/piecewise_jerk_path_optimizer). Please refer to it !
+
 ## Dependencies. 
 This code has been tested on Ubuntu18.04/20.04. External dependencies are 
 

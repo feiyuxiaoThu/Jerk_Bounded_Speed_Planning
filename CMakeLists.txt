@@ -39,7 +39,8 @@ add_executable(filter_position_opt main.cpp
                                    src/utils.cpp
                                    src/optimizer.cpp
                                    src/obstacle.cpp
-                                   src/scenario_generator.cpp)
+                                   src/scenario_generator.cpp
+                                   src/DP_speed_planner.cpp)
 
 target_link_libraries(filter_position_opt PRIVATE osqp::osqp)
 

@@ -1,38 +1,13 @@
-cmake_minimum_required(VERSION 2.8.3)
-project(ST_graph)
+cmake_minimum_required(VERSION 3.15)
+project(astar_speed_planning)
+
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(include)
+
+add_library(astar_lib src/base_node.cpp src/node_util.cpp src/astar_node.cpp src/hastar_node.cpp src/astar_planner.cpp src/hastar_planner.cpp)
+
+add_executable(main src/main.cpp)
+target_link_libraries(main astar_lib)
 
 
-add_compile_options(-std=c++11)
-
-SET(CMAKE_BUILD_TYPE "Debug")
-SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
-SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
-
-# find_package( REQUIRED COMPONENTS
-#     # roscpp
-#     # geometry_msgs
-#     pcl_conversions
-#     pcl_ros
-#     std_msgs
-#     # smartcar_msgs
-#     sensor_msgs
-#     tf
-# )
-
-# catkin_package(
-#     INCLUDE_DIRS include
-#     LIBRARIES 
-#     CATKIN_DEPENDS
-#         roscpp
-#         std_msgs
-#         # smartcar_msgs
-#         geometry_msgs
-# )
-
-include_directories(
-    INCLUDE_DIRS include
-)
-
-add_executable( DP_Speed_Planner
-    src/DP_speed_planner.cpp
-)

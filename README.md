@@ -1,54 +1,20 @@
-# Jerk Constraint Velocity Planning for an Autonomous Vehicle: Quadratic Programming Approach
+# 基于动态规划的速度规划
 
-> A pure c implemention of this method can be found in [feiyuxiaoThu
-/
-piecewise_jerk_path_optimizer](https://github.com/feiyuxiaoThu/piecewise_jerk_path_optimizer). Please refer to it !
+Apollo piecewise_jerk算法主要包括两方面，路径规划和速度规划，最后组合成轨迹
 
-## Dependencies. 
-This code has been tested on Ubuntu18.04/20.04. External dependencies are 
+路径规划: PIECEWISE_JERK_PATH_OPTIMIZER (QP)
+速度规划: SPEED_HEURISTIC_OPTIMIZER (DP)
+         PIECEWISE_JERK_NONLINEAR_SPEED_OPTIMIZER  (QP)
 
-- Eigen3
-- OSQP
-- CMake3.3 or higher
+Apollo内部关于车辆速度曲线的规划，主要是涉及了几个阶段的主要任务表述:
 
-## Acknowledgements
-This code is the self-research code for performing velocity planning **on a fixed path** using convex optimization method, and the structure of the repo is highly based on the nice work [Jerk Constrained Velocity Planning for an Autonomous Vehicle: Linear Programming Approach](https://arxiv.org/abs/2202.10029), and their open-source code [jerk_optimal_velocity_planning](https://github.com/pflab-ut/jerk_optimal_velocity_planning).
-
-## Result
-
-### Normal
-
-![](/result/Normal.png)
-
-### Cutin
-
-![](/result/Cutin.png)
-
-### Cutout
-
-![](/result/Cutout.png)
-
-### Stop
-
-![](/result/Stop.png)
-
-### Start 
-
-![](/result/Start.png)
-
-### Acc
-
-![](/result/Acc.png)
-
-## References
-
-For further interests on this topic, I recommend you refer to the following papers:
-
-+ Optimal Vechile Path Planning Using Quadratic Optimization for Baidu Apollo Open Platform
-+ A Real-Time Motion Planner with Trajectory Optimization for Autonomous Vehicles
-+ Safe Trajectory Generation For Complex Urban Environments Using Spatio-temporal Semantic Corridor (More deeper ...)
-
-
-
-
-
++ Speed_bounds_prior_decider:
+      首先，将障碍物的轨迹映射到s-t graph，随后计算出障碍物的轨迹（prior过程，障碍物在速度方面不存在decision，因此此次计算轨迹是withoutdecision），并将其放置boundaries集合中，随后设置速度最大限制（沿规划好路径），最后，st_graph_data保存boundaries,speed_limit等.
++ DP_ST_SPEED_OPTIMIZER：
+      根据上述的boundaries，进行计算启发式速度曲线搜索，得到最优轨迹
++ SPEED_DECIDER：
+      根据上述的speed曲线，来初步判断对障碍物的decision，其中行人需要特别处理，设置相应的决策行为
++ SPEED_BOUNDS_FINAL_DECIDER：
+      重新计算障碍物stboundary，然后根据障碍物的decision，确定速度的边界
++ PIECEWISE_JERK_SPEED_OPTIMIZER
+      基于osqp进行速度曲线的数值优化计算，得出最优曲线.

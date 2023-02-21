@@ -48,6 +48,10 @@ For further interests on this topic, I recommend you refer to the following pape
 + A Real-Time Motion Planner with Trajectory Optimization for Autonomous Vehicles
 + Safe Trajectory Generation For Complex Urban Environments Using Spatio-temporal Semantic Corridor (More deeper ...)
 
+## Further 
+
++ add more convex solver supports to fit engineering usage well. And the solver choice is made according to [this recommendation](https://drake.mit.edu/doxygen_cxx/group__solvers.html)
+
 
 
 

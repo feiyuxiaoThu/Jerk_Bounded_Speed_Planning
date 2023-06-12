@@ -26,6 +26,16 @@ public:
         double over_s_weight;
         double over_v_weight;
         double over_a_weight;
+        double over_j_weight;
+
+        double over_sref_weight;
+        double over_vref_weight;
+        double over_send_weight;
+        double over_vend_weight;
+        double over_aend_weight;
+
+
+    
     };
 
     struct OutputInfo
@@ -62,14 +72,22 @@ public:
         param_ = param;
     }
 
-    virtual bool solveqp(const double& initial_vel,
+    virtual bool solvelat(const double& initial_vel,
                            const double& initial_acc,
                            const double& dt,
                            const std::vector<double>& ref_s,
                            const std::vector<double>& max_s,
                            const std::vector<double>& min_s,
                            OutputInfo& output) = 0;
-
+   
+     
+    virtual bool solvelon(const double& initial_vel,
+                           const double& initial_acc,
+                           const double& dt,
+                           const std::vector<double>& ref_s,
+                           const std::vector<double>& max_s,
+                           const std::vector<double>& min_s,
+                           OutputInfo& output) = 0;
 
 protected:
     OptimizerParam param_;

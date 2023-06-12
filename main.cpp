@@ -10,6 +10,9 @@
 #include <iostream>
 //#include "solver/base_solver.h"
 
+#include "matplotlibcpp.h"
+namespace plt = matplotlibcpp;
+
 #include<fstream>
 
 int main()
@@ -17,7 +20,7 @@ int main()
     const std::string current_dir = std::string(RESULT_DIR);
     std::cout << current_dir << std::endl;
 
-    ScenarioGenerator::ScenarioNumber num = ScenarioGenerator:: Acc;
+    ScenarioGenerator::ScenarioNumber num = ScenarioGenerator:: Cutout;
 
     ScenarioGenerator generator;
 
@@ -38,11 +41,18 @@ int main()
     param.max_vel = 33.3;
     param.min_vel = 0.0;
 
-    param.ref_v = 15.0; 
+    param.ref_v = 18.0; 
 
-    param.over_s_weight = 0;
-    param.over_a_weight = 10;
-    param.over_v_weight = 200;
+    param.over_s_weight = 1;
+    param.over_v_weight = 5;
+    param.over_a_weight = 50;
+    param.over_j_weight = 10;
+    param.over_sref_weight = 0.1;
+    param.over_vref_weight = 0.1;
+    param.over_send_weight = 0.1;
+    param.over_vend_weight = 0.1;
+    param.over_aend_weight = 0.1;
+
     
 
     /***************************************************/
@@ -73,9 +83,34 @@ int main()
         std::string obs_filenamenew = current_dir + "/result/Opt_vel.csv";
         Utils::outputToFile(obs_filenamenew, data.ref_position_,data.max_position_,data.min_position_,qp_output);
         
+        //PLot
+        plt::figure();
+        plt::plot(qp_output.time,qp_output.position,{{"label","op position"}});
+        plt::plot(qp_output.time,data.max_position_,{{"label","upper position"}});
+        plt::plot(qp_output.time,data.min_position_,{{"label","lower position"}});
+
+        plt::title("Position");
+        plt::legend();
+        //plt::show();
+        plt::save("../result/position.pdf");
+
+        plt::figure();
+        plt::plot(qp_output.time,qp_output.velocity,{{"label","op velocity"}});
+
+        plt::title("velocity");
+        plt::legend();
+        plt::save("../result/velocity.pdf");
+
+        plt::figure();
+        plt::plot(qp_output.time,qp_output.acceleration,{{"label","op acceleration"}});
+        plt::plot(qp_output.time,qp_output.jerk,{{"label","op jerk"}});
+
+        plt::title("acceleration");
+        plt::legend();
+        plt::save("../result/acceleration.pdf");
     }
     
-
+   
 
 
     

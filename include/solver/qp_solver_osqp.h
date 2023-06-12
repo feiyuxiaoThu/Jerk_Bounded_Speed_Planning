@@ -10,7 +10,15 @@ namespace osqp
     public:
         QPSolver(const OptimizerParam& param) : BaseSolver(param) {}
 
-        bool solveqp(const double& initial_vel,
+        bool solvelat(const double& initial_vel,
+                           const double& initial_acc,
+                           const double& dt,
+                           const std::vector<double>& ref_s,
+                           const std::vector<double>& max_s,
+                           const std::vector<double>& min_s,
+                           OutputInfo& output);
+
+        bool solvelon(const double& initial_vel,
                            const double& initial_acc,
                            const double& dt,
                            const std::vector<double>& ref_s,

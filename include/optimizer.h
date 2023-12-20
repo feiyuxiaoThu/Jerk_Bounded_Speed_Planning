@@ -3,6 +3,7 @@
 
 #include "solver/base_solver.h"
 #include "solver/qp_solver_osqp.h"
+#include "solver/qp_solver_piqp.h"
 #include <memory>
 
 class Optimizer
@@ -11,6 +12,7 @@ public:
     enum OptimizerSolver
     {
         OSQP_QP = 0,
+        PIQP_QP = 1,
         // can add more solvers ...
     };
 

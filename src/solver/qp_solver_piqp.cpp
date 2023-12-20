@@ -1,6 +1,8 @@
-#include "solver/qp_solver_osqp.h"
+#include "solver/qp_solver_piqp.h"
 
-namespace osqp
+#define num_m 153
+
+namespace piqp
 {   
     /*
     bool QPSolver::solvelat(const double& initial_vel,
@@ -219,13 +221,14 @@ namespace osqp
 
         
         // Create Solver
+        /*
         osqp::OSQPInterface qp_solver_;
         qp_solver_.updateMaxIter(1000);
         qp_solver_.updateRhoInterval(0);  // 0 means automatic
         qp_solver_.updateEpsRel(1.0e-4);  // def: 1.0e-4
         qp_solver_.updateEpsAbs(1.0e-8);  // def: 1.0e-4
         qp_solver_.updateVerbose(false);
-
+        */
         long N = static_cast<long>(ref_s.size());
         const long var_size = 3*N;
         const long size_cons_part1 = 2*N+3;
@@ -380,16 +383,101 @@ namespace osqp
             upperBound[temp2] = jmax*delta_t;
         }
 
-        
+        //diqp
+        //const long size_cons_part1 = 2*N+3;
+       // const long size_cons_part2 = 4*N-1;
+       int coms_num = 2*size_cons_part1 + 2*size_cons_part2;
+
+      
+
+       Eigen::MatrixXd P(num_m, num_m);
+       Eigen::VectorXd c(num_m);
+       
+       Eigen::MatrixXd A(size_cons_part1, num_m);
+       Eigen::VectorXd b(size_cons_part1);
+
+       Eigen::MatrixXd G(2*size_cons_part2, num_m); 
+       Eigen::VectorXd h(2*size_cons_part2); 
+
+       Eigen::Matrix<double,num_m,1> x;  // state variables
+      
+       Eigen::VectorXd x_lb(num_m);  // lower bound x
+       Eigen::VectorXd x_ub(num_m); //std::numeric_limits<double>::infinity();
+
+       for(int i =0; i<N; i++){
+            x_lb[i] = -std::numeric_limits<double>::infinity(); // bigger than zero
+            x_ub[i] = std::numeric_limits<double>::infinity(); // 25m/s 20s
+            x_lb[i+N] = -std::numeric_limits<double>::infinity();
+            x_ub[i+N] = std::numeric_limits<double>::infinity();
+            x_lb[i+2*N] = -std::numeric_limits<double>::infinity();
+            x_ub[i+2*N] = std::numeric_limits<double>::infinity();
+       }
+
+       
+       Eigen::MatrixXd hessian_sym = 0.5*(hessian.transpose() + hessian);
+
+       
+       for (int i = 0; i<num_m; i++){
+            for (int j = 0; j<num_m; j++){
+                P(i,j) = hessian_sym(i,j);
+            }
+       }
+
+       for (int i = 0; i<num_m; i++){
+            c[i] = gradient[i];
+       }
+
+       for (int i =0; i<size_cons_part1; i++){
+            for(int j=0; j<num_m; j++){
+                A(i,j) = constraint_matrix(i,j);
+                //A(i+size_cons_part1,j) = -constraint_matrix(i,j);
+            }
+       }
+
+       for (int i = 0; i<size_cons_part1; i++){
+            b[i] = upperBound[i];
+            //b[i+size_cons_part1] = -lowerBound[i] + 0.00001;
+       }
+
+       
+
+       for (int i =0; i<size_cons_part2; i++){
+            for(int j=0; j<num_m; j++){
+                G(i,j) = constraint_matrix(i,j);
+                G(i+size_cons_part2,j) = -constraint_matrix(i,j);
+            }
+       }
+
+       for (int i = 0; i<size_cons_part2; i++){
+            h[i] = upperBound[i];
+            h[i+size_cons_part2] = -lowerBound[i];
+       }
+       
+
+       //solve the QP problem 
+
+       piqp::DenseSolver<double> solver;
+       solver.settings().verbose = true;
+       solver.settings().compute_timings = true;
+       solver.setup(P, c, A, b, G, h, x_lb, x_ub);
+
+       piqp::Status status = solver.solve();
+
+       std::cout << "status = " << status << std::endl;
+       std::cout << "x = " << solver.result().x.transpose() << std::endl;
+
+       
+
+       std::cout <<"check size" << "N = " << N << "And samplesize = " << N << std::endl;
+
 
         // solve the QP problem
-        const auto result = qp_solver_.optimize(hessian, constraint_matrix, gradient, lowerBound, upperBound);
+        const auto optval = solver.result().x.transpose();
 
-        const std::vector<double> optval = std::get<0>(result);
-        const int state_qp = std::get<2>(result);
-        const int value_qp = std::get<3>(result);
+        std::cout << "size res" << optval.size() << std::endl;
 
         output.resize(N);
+
         for(unsigned int i=0; i<N; ++i)
         {
             output.position[i] = optval[i];

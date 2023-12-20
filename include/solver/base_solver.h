@@ -9,6 +9,8 @@
 #include <chrono>
 #include "interpolate.h"
 #include "solver/osqp_interface/osqp_interface.h"
+#include <limits>
+#include "solver/piqp/piqp.hpp"
 
 class BaseSolver
 {
@@ -72,6 +74,14 @@ public:
         param_ = param;
     }
 
+    virtual bool solve(const double& initial_vel,
+                           const double& initial_acc,
+                           const double& dt,
+                           const std::vector<double>& ref_s,
+                           const std::vector<double>& max_s,
+                           const std::vector<double>& min_s,
+                           OutputInfo& output) = 0;
+    /*
     virtual bool solvelat(const double& initial_vel,
                            const double& initial_acc,
                            const double& dt,
@@ -88,6 +98,7 @@ public:
                            const std::vector<double>& max_s,
                            const std::vector<double>& min_s,
                            OutputInfo& output) = 0;
+    */
 
 protected:
     OptimizerParam param_;

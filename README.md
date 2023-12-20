@@ -10,31 +10,9 @@ This code has been tested on Ubuntu18.04/20.04. External dependencies are
 ## Acknowledgements
 This code is the self-research code for performing velocity planning **on a fixed path** using convex optimization method, and the structure of the repo is highly based on the nice work [Jerk Constrained Velocity Planning for an Autonomous Vehicle: Linear Programming Approach](https://arixv.org/abs/2202.10029), and their open-source code [jerk_optimal_velocity_planning](https://github.com/pflab-ut/jerk_optimal_velocity_planning).
 
-## Result
+## Further Development
 
-### Normal
-
-![](/result/Normal.png)
-
-### Cutin
-
-![](/result/Cutin.png)
-
-### Cutout
-
-![](/result/Cutout.png)
-
-### Stop
-
-![](/result/Stop.png)
-
-### Start 
-
-![](/result/Start.png)
-
-### Acc
-
-![](/result/Acc.png)
+We add another QP solver [piqp](https://github.com/PREDICT-EPFL/piqp)  support, and note in current time only [the dense form](https://predict-epfl.github.io/piqp/interfaces/c_cpp/getting_started_cpp) is supported.
 
 ## References
 

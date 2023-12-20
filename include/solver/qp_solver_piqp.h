@@ -1,9 +1,9 @@
-#ifndef FILTER_POSITION_OPTIMIZATION_QP_SOLVER_OSQP_H
-#define FILTER_POSITION_OPTIMIZATION_QP_SOLVER_OSQP_H
+#ifndef FILTER_POSITION_OPTIMIZATION_QP_SOLVER_PIQP_H
+#define FILTER_POSITION_OPTIMIZATION_QP_SOLVER_PIQP_H
 
 #include "solver/base_solver.h"
 
-namespace osqp
+namespace piqp
 {
     class QPSolver : public BaseSolver
     {

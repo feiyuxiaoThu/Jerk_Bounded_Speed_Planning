@@ -58,7 +58,7 @@ int main()
     /***************************************************/
     /********** QP Optimization(Pseudo-Jerk) ***********/
     /***************************************************/
-    Optimizer qp_optimizer(Optimizer::OptimizerSolver::OSQP_QP, param);
+    Optimizer qp_optimizer(Optimizer::OptimizerSolver::PIQP_QP, param);
     BaseSolver::OutputInfo qp_output;
     qp_output.position = data.ref_position_;
 
@@ -71,6 +71,9 @@ int main()
     qp_end = std::chrono::system_clock::now();
     double qp_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(qp_end-qp_start).count();
 
+    //test lp
+    
+
     
     if(!qp_result)
     {
@@ -80,7 +83,7 @@ int main()
     else{
         // csv writer
         std::cerr << "QP Solver use time = " << qp_elapsed  << " ms" <<std::endl;
-        std::string obs_filenamenew = current_dir + "/result/Opt_vel.csv";
+        std::string obs_filenamenew = current_dir + "/result/Opt_vel_piqp.csv";
         Utils::outputToFile(obs_filenamenew, data.ref_position_,data.max_position_,data.min_position_,qp_output);
         
         //PLot
@@ -92,14 +95,14 @@ int main()
         plt::title("Position");
         plt::legend();
         //plt::show();
-        plt::save("../result/position.pdf");
+        plt::save("../result/position_piqp.pdf");
 
         plt::figure();
         plt::plot(qp_output.time,qp_output.velocity,{{"label","op velocity"}});
 
         plt::title("velocity");
         plt::legend();
-        plt::save("../result/velocity.pdf");
+        plt::save("../result/velocity_piqp.pdf");
 
         plt::figure();
         plt::plot(qp_output.time,qp_output.acceleration,{{"label","op acceleration"}});
@@ -107,7 +110,7 @@ int main()
 
         plt::title("acceleration");
         plt::legend();
-        plt::save("../result/acceleration.pdf");
+        plt::save("../result/acceleration_piqp.pdf");
     }
     
    
